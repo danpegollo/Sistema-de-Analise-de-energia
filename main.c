@@ -29,6 +29,8 @@ int unidade_Ids_Catalogo[MAX];
 char descricoes[MAX][50];
 int opcao;
 int opcao_algoritmo;
+int id_buscado;
+int opcao_tipo_busca;
 
 
 int main(){
@@ -77,10 +79,18 @@ int main(){
                         void mergeSortLeituraPorId(int ids[], int unidadeIds[], int meses[], int anos[], float consumos[], int inicio, int fim);
                         break;
                     }
-                } while() {
-                break;
-            case 2:
+                } while(opcao_algoritmo < 1 || opcao_algoritmo > 5); 
 
+            case 2:
+                printf("Digite o ID da leitura: \n");
+                scanf("%d", &id_buscado);
+
+                printf("Escolha o algoritmo de busca: \n");
+                printf("\n1. Busca linear\n");
+                printf("2. Busca binaria\n");
+                
+                printf("\nOpcao:\n");
+                scanf("%d", &opcao_tipo_busca)
                 break;
 
             case 3:
