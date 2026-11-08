@@ -20,6 +20,61 @@ float calcularConsumoPeriodo(int meses[], int anos[], float consumos[], int n, i
 int encontrarUnidadeMaiorConsumo(int unidadeIds[], float consumos[], int n);
 
 // funções leo:
+
+int carregarLeituras(const char nomeArquivo[],
+                     int ids[],
+                     int unidadeIds[],
+                     int meses[],
+                     int anos[],
+                     float consumos[],
+                     int max)
+{
+    FILE *arq = fopen(nomeArquivo, "r");
+    if (arq == NULL) {
+        return -1;
+    }
+ 
+    int n = 0;
+    while (n < max &&
+           fscanf(arq, "%d %d %d %d %f",
+                  &ids[n], &unidadeIds[n], &meses[n],
+                  &anos[n], &consumos[n]) == 5) {
+        n++;
+    }
+ 
+    fclose(arq);
+    return n;
+}
+ 
+int carregarUnidades(const char nomeArquivo[],
+                     int unidadeIds[],
+                     char descricoes[][50],
+                     int max)
+{
+    FILE *arq = fopen(nomeArquivo, "r");
+    if (arq == NULL) {
+        return -1;
+    }
+ 
+    char linha[256];
+    int n = 0;
+ 
+    while (n < max && fgets(linha, sizeof(linha), arq) != NULL) {
+        int id;
+        char desc[50];
+ 
+        if (sscanf(linha, "%d;%49[^\r\n]", &id, desc) == 2) {
+            unidadeIds[n] = id;
+            sprintf(descricoes[n], "%s", desc);
+            n++;
+        }
+    }
+ 
+    fclose(arq);
+    return n;
+}
+
+
 void trocar(int v[], int a, int b) {
     int temp = v[a];
     v[a] = v[b];
