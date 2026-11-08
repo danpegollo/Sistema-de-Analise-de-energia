@@ -39,13 +39,13 @@ void trocar(int v[], int a, int b) {
     v[b] = temp;
 }
 
-void floattrocar(float v[], int a, int b) {
+void floatTrocar(float v[], int a, int b) {
     float temp = v[a];
     v[a] = v[b];
     v[b] = temp;
 }
 
-int buscalinear(int ids[], int n, int idProcurado) {
+int buscaLinear(int ids[], int n, int idProcurado) {
     for (int i = 0; i < n; i++) {
         if (ids[i] == idProcurado) {
             return i;
