@@ -53,7 +53,23 @@ int buscalinear(int ids[], int n, int idProcurado) {
     }
     return -1;
 }
+int buscaBinaria(int ids[], int n, int idProcurado){
+    int inicio = 0;
+    int fim = n - 1;
 
+    while (inicio <= fim){
+        int meio = (inicio + fim) /2;
+        if(ids[meio] == idProcurado){
+            return meio; //Encontrou o elemento na posição meio
+        } else if (idProcurado < ids[meio]){
+            fim = meio - 1; //Valor procurado é menor que o meio
+        } else {
+            inicio = meio + 1;
+        }
+    }
+    return -1; //Não encontrou
+}
+    
 void bubbleSortLeituraPorId(int ids[], int unidadesId[], int meses[], int anos[], float consumos[], int n) {
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < n - 1 - i; j++) {
@@ -219,6 +235,7 @@ int main(){
                 }
             break;
             }
+
             case 4: {
                 int mes_inicial, ano_inicial, mes_final, ano_final;
                 float total;
