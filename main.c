@@ -201,17 +201,47 @@ int main(){
                     }
                 } while(opcao_algoritmo < 1 || opcao_algoritmo > 5); 
 
-            case 2:
+            case 2: {
+                int indice;
+                int indiceUnidade;
+
                 printf("Digite o ID da leitura: \n");
                 scanf("%d", &id_buscado);
 
                 printf("Escolha o algoritmo de busca: \n");
                 printf("\n1. Busca linear\n");
                 printf("2. Busca binaria\n");
-                
                 printf("\nOpcao:\n");
                 scanf("%d", &opcao_tipo_busca);
+
+                if (opcao_tipo_busca == 1) {
+                    indice = buscaLinear(ids, qtdLeituras, id_buscado);
+                } else if (opcao_tipo_busca == 2) {
+                    if (!ordenado) {
+                    quickSortLeituraPorId(ids, unidadeIds, meses, anos, consumos, 0, qtdLeituras - 1);
+                    ordenado = 1;
+                    }
+                    indice = buscaBinaria(ids, qtdLeituras, id_buscado);
+                } else {
+                    printf("Opcao invalida. Tente novamente.\n");
+                    break;
+                }
+
+                if (indice == -1) {
+                    printf("Leitura nao encontrada.\n");
+                } else {
+                    indiceUnidade = buscaLinear(unidadeIdsCatalogo, qtdUnidades, unidadeIds[indice]);
+
+                printf("Leitura encontrada:\n\n");
+                printf("ID Leitura: %d\n", ids[indice]);
+                printf("Unidade: %d\n", unidadeIds[indice]);
+                printf("Descricao: %s\n", descricoes[indiceUnidade]);
+                printf("Mes: %d\n", meses[indice]);
+                printf("Ano: %d\n", anos[indice]);
+                printf("Consumo: %.2f kWh\n", consumos[indice]);
+                }
                 break;
+            }
 
             case 3: {
                 int idUnidade;
