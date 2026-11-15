@@ -32,31 +32,79 @@ int opcao_algoritmo;
 int id_buscado;
 int opcao_tipo_busca;
 
-// funções leo:
+//Função de carregar dados
+int carregarLeituras(const char nomeArquivo[],
+                     int ids[],
+                     int unidadeIds[],
+                     int meses[],
+                     int anos[],
+                     float consumos[],
+                     int max)
+{
+    FILE *arq = fopen(nomeArquivo, "r");
+    if (arq == NULL) {
+        return -1;
+    }
+    int n = 0;
+    while (n < max &&
+           fscanf(arq, "%d %d %d %d %f",
+                  &ids[n], &unidadeIds[n], &meses[n],
+                  &anos[n], &consumos[n]) == 5) {
+        n++;
+    }
+    fclose(arq);
+    return n;
+}
+//Função de carregar unidades
+int carregarUnidades(const char nomeArquivo[],
+                     int unidadeIds[],
+                     char descricoes[][50],
+                     int max)
+{
+    FILE *arq = fopen(nomeArquivo, "r");
+    if (arq == NULL) {
+        return -1;
+    }
+    char linha[256];
+    int n = 0;
+    while (n < max && fgets(linha, sizeof(linha), arq) != NULL) {
+        int id;
+        char desc[50];
+        if (sscanf(linha, "%d;%49[^\r\n]", &id, desc) == 2) {
+            unidadeIds[n] = id;
+            sprintf(descricoes[n], "%s", desc);
+            n++;
+        }
+    }
+    fclose(arq);
+    return n;
+}
+
+// Trocar Posições inteiros
 void trocar(int v[], int a, int b) {
     int temp = v[a];
     v[a] = v[b];
     v[b] = temp;
 }
-
+// Trocar Posições float
 void floatTrocar(float v[], int a, int b) {
     float temp = v[a];
     v[a] = v[b];
     v[b] = temp;
 }
-
+//Busca Linear
 int buscaLinear(int ids[], int n, int idProcurado) {
     for (int i = 0; i < n; i++) {
-        if (ids[i] == idProcurado) {
+        if (ids[i] == idProcurado){
             return i;
         }
     }
     return -1;
 }
+//Busca Binária
 int buscaBinaria(int ids[], int n, int idProcurado){
     int inicio = 0;
     int fim = n - 1;
-
     while (inicio <= fim){
         int meio = (inicio + fim) /2;
         if(ids[meio] == idProcurado){
@@ -69,7 +117,7 @@ int buscaBinaria(int ids[], int n, int idProcurado){
     }
     return -1; //Não encontrou
 }
-    
+// Ordenação Bubble
 void bubbleSortLeituraPorId(int ids[], int unidadesId[], int meses[], int anos[], float consumos[], int n) {
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < n - 1 - i; j++) {
@@ -83,7 +131,7 @@ void bubbleSortLeituraPorId(int ids[], int unidadesId[], int meses[], int anos[]
         }
     }
 }
-
+//Ordenação Insertion
 void insertionSortLeituraPorId(int ids[], int unidadesId[], int meses[], int anos[], float consumos[], int n) {
     for (int i = 1; i < n; i++) {
         int x = ids[i];
@@ -92,7 +140,6 @@ void insertionSortLeituraPorId(int ids[], int unidadesId[], int meses[], int ano
         int x4 = anos[i];
         float x5 = consumos[i];
         int j = i - 1;
-        
         while (j >= 0 && ids[j] > x) {
             ids[j + 1] = ids[j];
             unidadesId[j + 1] = unidadesId[j];
@@ -108,12 +155,11 @@ void insertionSortLeituraPorId(int ids[], int unidadesId[], int meses[], int ano
         consumos[j + 1] = x5;
     }
 }
-
+//Encontra a unidade com o maior consumo
 int encontrarUnidadeMaiorConsumo(int unidadeIds[], float consumos[], int n) {
     if (n <= 0) {
         return -1; 
     }
-    
     int maiorId = -1;
     float maiorConsumoTotal = -1.0;
     int i, j;
@@ -140,16 +186,13 @@ int encontrarUnidadeMaiorConsumo(int unidadeIds[], float consumos[], int n) {
                 consumoTotalAtual += consumos[j];
             }
         }
-
-        // o maior consumo é atualizado baseado em:
-        // Se o consumo total atual for maior que o registado.
-        // Em caso de empate no consumo, escolhe o de menor ID.
+        /* O maior consumo é atualizado baseado em: se o consumo total atual for maior que o registado.
+        Em caso de empate no consumo, escolhe o de menor ID.*/
         if (maiorId == -1 || consumoTotalAtual > maiorConsumoTotal || (consumoTotalAtual == maiorConsumoTotal && idAtual < maiorId)) {
             maiorConsumoTotal = consumoTotalAtual;
             maiorId = idAtual;
         }
     }
-
     return maiorId;
 }
 
