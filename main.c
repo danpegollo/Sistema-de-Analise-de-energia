@@ -32,7 +32,7 @@ int opcao;
 int opcao_algoritmo;
 int id_buscado;
 int opcao_tipo_busca;
-int ordenado = 0;
+bool ordenado = false;
 
 //Função de carregar dados
 int carregarLeituras(const char nomeArquivo[],
@@ -385,7 +385,7 @@ int main(){
                             default: printf("Opcao invalida. Tente novamente.\n");
                         }
                     } while (opcao_algoritmo < 1 || opcao_algoritmo > 5);
-                    ordenado = 1;
+                    ordenado = true;
                 }
 
                 printf("\nLeituras ordenadas por ID:\n\n");
@@ -417,7 +417,7 @@ int main(){
                 } else if (opcao_tipo_busca == 2) {
                     if (!ordenado) {
                     quickSortLeituraPorId(ids, unidadeIds, meses, anos, consumos, 0, qtdLeituras - 1);
-                    ordenado = 1;
+                    ordenado = true;
                     }
                     indice = buscaBinaria(ids, qtdLeituras, id_buscado);
                 } else {
