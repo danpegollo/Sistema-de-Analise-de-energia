@@ -349,6 +349,7 @@ int main(){
         printf("Erro ao abrir o arquivo unidades.csv.\nEncerrando o programa.\n");
         return 1;
     }
+    printf("Leituras: %d | Unidades: %d\n", qtdLeituras, qtdUnidades);
     //Laço do Menu Principal
     do {
         printf("===== SISTEMA DE ANALISE DE CONSUMO DE ENERGIA =====\n");
@@ -393,6 +394,7 @@ int main(){
                 printf("-----------------------------------------------------------------------\n");
                 for (int i = 0; i < qtdLeituras; i++) {
                     int iu = buscaLinear(unidadeIdsCatalogo, qtdUnidades, unidadeIds[i]);
+                    const char *desc = (iu == -1) ? "Desconhecida" : descricoes[iu];
                     printf("%d | %d | %s | %d | %d | %.2f\n",
                            ids[i], unidadeIds[i], descricoes[iu], meses[i], anos[i], consumos[i]);
                 }
