@@ -1,3 +1,7 @@
+//Daniel Pegollo 10769719
+//Leonardo dos Santos Pessanha 10769599
+//Heitor Do Vale Allas Chagas 10769698
+
 /* Bloco de inclusão das bibliotecas e número máximo de simulações*/
 #include <stdio.h>
 #include <stdbool.h>
